@@ -12,9 +12,12 @@ app.use(express.static("static"));
 
 app.post("/sql", function(req, res) {
   var sql = req.body.sql.replace(/\\r\\n/, "\n");
-  console.log(req.body);
+  var params = req.body.params;
+  if(!params || typeof params != "object") {
+    params = {};
+  }
   if(!sql) return res.status(400).send("no");
-  conn.query(sql, function(err, results, data) {
+  conn.query(sql, params, function(err, results, data) {
     if(err) return res.status(500).send(err);
     res.send({data: data, results: results});
   });
