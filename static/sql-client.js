@@ -63,8 +63,7 @@ SQL.prototype.sendPreparedSelect = function(query, params, cb) {
 }
 
 SQL.modules = {
-  SELECT: "sql-client-select.js",
-  DELETE: "sql-client-delete.js"
+  SELECT: "sql-client-select.js"
 }
 
 SQL.init = function() {
@@ -94,6 +93,6 @@ document.addEventListener("DOMContentLoaded", function() {
   console.log(document.currentScript);
   document.addEventListener("SQLPluginLoaded", function() {
     console.log("SQL Loaded");
-  })
+  });
   SQL.init();
-})
+});
