@@ -4,8 +4,59 @@
   <title></title>
   <script src="sql-client.js"></script>
   <script src="test.js"></script>
+  <style>
+    #right-panel {
+      float: right;
+    }
+    .container {
+      max-height: 33%;
+    }
+    #sql-response {
+      width: 75%;
+      max-height: 700px;
+      border: thin solid black;
+    }
+
+    .layout-button {
+      cursor: pointer;
+    }
+    .layout-button:hover {
+      background-color: rgba(245, 238, 13, 0.42);
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even){background-color: #f2f2f2}
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+  </style>
 </head>
 <body>
+  <div id="right-panel">
+    <div id="databases" class="container">
+      <span>Databases</span>
+      <ul id="database-data">
+
+      </ul>
+    </div>
+    <div id="tables" class="container">
+      <span>Tables</span>
+      <ul id="table-data">
+
+      </ul>
+    </div>
+  </div>
   <ul id="history">
 
   </ul>
@@ -14,8 +65,8 @@
     <textarea name="sql" form="queryForm"></textarea>
     <input type="submit"></input>
   </form>
-  <div id="response">
+  <table id="sql-response">
 
-  </div>
+  </table>
 </body>
 </html>

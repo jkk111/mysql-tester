@@ -6,18 +6,25 @@ var queryHistory = [];
     function sendQuery(e) {
       e.preventDefault();
       var form = e.target;
-      console.log(form);
       var query = form.sql.value;
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/sql", true);
-      xhr.onload = function() {
-        document.getElementById("response").innerText = this.responseText;
-        updateHistory({sql: query, success: this.status == 200});
-      }
-      xhr.onerror = function() {
-        updateHistory({sql: sql, success: false});
-      }
-      xhr.send(new FormData(form));
+      // var xhr = new XMLHttpRequest();
+      // xhr.open("POST", "/sql", true);
+      // xhr.onload = function() {
+      //   document.getElementById("response").innerText = this.responseText;
+      //   updateHistory({sql: query, success: this.status == 200});
+      // }
+      // xhr.onerror = function() {
+      //   updateHistory({sql: sql, success: false});
+      // }
+      // xhr.send(new FormData(form));
+      if(!sql) window.sql = new SQL();
+      sql.send(query, function(result) {
+        var results = result.response.results;
+        if(results && (results.length > 0)) {
+          var table = document.getElementById("sql-response");
+          sql.buildTable(table, results);
+        }
+      })
     }
 
     function rerun(e) {

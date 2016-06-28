@@ -63,7 +63,36 @@ SQL.prototype.sendPreparedSelect = function(query, params, cb) {
 }
 
 SQL.modules = {
-  SELECT: "sql-client-select.js"
+  SELECT: "sql-client-select.js",
+  LAYOUT: "sql-client-layout.js"
+}
+
+SQL.prototype.buildTable = function(table, results) {
+  table.innerHTML = "";
+  var template;
+  if(Array.isArray(results)) template = Object.keys(results[0]);
+  else template = Object.keys(results);
+  var header = document.createElement("tr");
+  table.appendChild(header);
+  template.forEach(function(key) {
+    var el = document.createElement("th");
+    el.innerHTML = key;
+    header.appendChild(el);
+  });
+  function buildRow(row) {
+    var el = document.createElement("tr");
+    for(key in row) {
+      var dataEl = document.createElement("td");
+      dataEl.innerHTML = row[key];
+      el.appendChild(dataEl);
+    }
+    table.appendChild(el);
+  }
+  if(Array.isArray(results)) {
+    results.forEach(buildRow);
+  } else {
+    buildRow(results);
+  }
 }
 
 SQL.init = function() {
@@ -88,11 +117,14 @@ SQL.init = function() {
     xhr.send();
   }
 }
-
+var sql;
 document.addEventListener("DOMContentLoaded", function() {
   console.log(document.currentScript);
   document.addEventListener("SQLPluginLoaded", function() {
     console.log("SQL Loaded");
+    sql = new SQL();
+    console.log(sql);
+    sql.getDatabases();
   });
   SQL.init();
 });
