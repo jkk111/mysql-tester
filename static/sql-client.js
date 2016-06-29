@@ -4,6 +4,7 @@ function SQL(conf) {
   conf = conf || {};
   this.path = conf.path || "/sql";
   this.database = conf.database;
+  this.mode = "select";
 }
 
 SQL.prototype.setDB = function(database) {
@@ -117,14 +118,19 @@ SQL.init = function() {
     xhr.send();
   }
 }
-var sql;
+
 document.addEventListener("DOMContentLoaded", function() {
-  console.log(document.currentScript);
   document.addEventListener("SQLPluginLoaded", function() {
-    console.log("SQL Loaded");
     sql = new SQL();
-    console.log(sql);
     sql.getDatabases();
+    var modeToggle = document.getElementById("mode-button");
+    var modes = ["select", "describe"];
+    var modesIndex = 0;
+    modeToggle.addEventListener("click", function() {
+      modesIndex = (modesIndex + 1) % modes.length;
+      modeToggle.innerHTML = modes[(modesIndex + 1) % modes.length];
+      sql.mode = modes[modesIndex];
+    });
   });
   SQL.init();
 });

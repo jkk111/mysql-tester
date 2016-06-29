@@ -33,7 +33,10 @@ SQL.prototype.getTables = function(database) {
       el.classList.add("layout-button");
       el.innerHTML = table;
       el.onclick = function() {
-        self.describeTable(database, table);
+        if(self.mode == "select")
+          self.select(database, table);
+        else if(self.mode == "describe")
+          self.describeTable(database, table);
       };
       tablesEl.appendChild(el);
     })
